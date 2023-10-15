@@ -1,0 +1,95 @@
+{% extends "core/base.html" %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+
+{% block content %}
+    <main class="mt-10 max-w-6xl mx-auto">
+        <div class="flex space-x-6">
+            <div class="w-full lg:w-1/2">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="rounded-xl"/>
+                {% else %}
+                    <img = src="https://via.placeholder.com/400x400.jpg"/>
+                {% endif %}
+            </div>
+
+            <div class="w-full lg:w-1/2 bg-gray-100 p-4 rounded-xl">
+                <h2 class="text-2xl">{{ product.name }}</h2>
+                <p class="mt-2">Price: ${{ product.price }}</h2> 
+
+                {% if product.get_rating > 0 %}
+                    <p class="mt-1 text-gray-400">Rating: {{ product.get_rating }} / 6</p>
+                {% endif %}
+                
+                {% if product.description %}
+                    <p class="mt-6 text-gray-700 bg-gray-200 p-2 rounded-xl">{{ product.description }}</p>
+                {% endif %}
+    
+                <a
+                    href="#"
+                    class="mt-6 inline-block px-8 py-4 rounded-xl bg-purple-500 text-white hover:bg-purple-800"
+                    hx-get="{% url 'cart:add_to_cart' product.id %}"
+                    hx-target="#menu-cart-button" 
+                    hx-swap="outerHTML"
+                >
+                Add to cart
+                </a>
+            </div>
+        </div>
+
+        
+        <div class="w-full mt-6">
+            <h2 class="text-xl">Reviews</h2>
+    
+            {% if request.user.is_authenticated %}
+                <form method="post" action="." class="mt-2 p-6 bg-gray-200 rounded-xl">
+                    {% csrf_token %}
+    
+                    <div class="flex justify-between space-x-10">
+                        <div class="w-1/2 space-y-2">
+                            <label>Comment</label><br>
+                            <input type='text' name="content" class="w-full rounded-xl p-2"></input>
+                        </div>
+
+                        <div class="w-1/2 space-y-2">
+                            <label class="">Rating</label><br>
+                            <select name="rating">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3" selected>3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select>
+                        </div>
+                    </div>
+    
+                    <div class="mt-6">
+                        <button class="py-2 px-6 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Send</button>
+                    </div>
+                </form>
+            {% else %}
+                <a href="{% url 'core:login' %}" class="p-2 mt-4 bg-green-500 rounded-xl inline-block">Login to review</a>
+            {% endif %}
+    
+            {% if product.reviews.all %}
+                <div class="mt-4 p-2 bg-gray-200 rounded-xl">
+                    {% for review in product.reviews.all %}
+                        <div class="px-4 mb-4">
+                            <strong>User: </strong>{{ review.created_by.first_name }} {{ review.created_by.last_name}} -- 
+                            <strong>Date:</strong> {{ review.created_at|date:"d/m/Y" }} --  
+                            <strong>Rating:</strong> {{ review.rating }}/6</br>
+                            <strong>Comment: </strong>{{ review.content }}
+                            <hr class="w-full h-1 mx-auto bg-gray-100 rounded dark:bg-gray-700">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="mt-4 p-2 bg-gray-200 rounded-xl">
+                    <p class="text-gray-800 text-center">Emtype reivew</p>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+{% endblock %}

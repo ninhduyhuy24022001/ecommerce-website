@@ -1,0 +1,58 @@
+{% extends "core/base.html" %}
+
+{% block title %}Shop{% endblock %}
+
+{% block content %}
+    <main class="max-w-6xl mx-auto">
+        <div class="mt-4 space-y-4">
+            <h2 class="text-xl font-semibold">Username: {{ request.user.username }}</h2>
+            <p>First name: {{request.user.first_name }}</p>
+            <p>Last name: {{ request.user.last_name }}</p>
+            <p>Email: {{ request.user.email }}</p>
+
+            <a href="{% url 'core:edit_account' %}" class="inline-block mt-4 p-2 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Edit Account</a>
+            <a href="{% url 'core:logout' %}" class="inline-block mt-4 p-2 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Log out</a>
+        </div>  
+        
+        <h2 class="m-6 text-2xl font-semibold text-center text-violet-600">My orders</h2>
+
+        {% for order in request.user.orders.all %}
+            <div class="w-full mb-6 p-6 flex flex-wrap bg-gray-200 rounded-xl">
+                <div class="mb-6 flex justify-between">
+                    <a href="#">Order id: {{ order.id }}</a>
+                </div>
+
+                <div class="mb-6 w-full">
+                    {% for item in order.items.all %}
+                        <div class="product mb-6 flex pr-6">
+                            <a href="{% url 'product:detail' item.product.slug %}" class="w-1/4">
+                                <img class="hover:shadow-lg rounded-xl" src="{{ item.product.get_thumbnail }}">
+                            </a>
+
+                            <div class="w-3/4 pl-6">
+                                <div class="flex justify-between">
+                                    <a href="{% url 'product:detail' item.product.slug %}" class="text-lg"><strong>{{ item.product.name }}</strong></a>
+
+                                    <p class="mb-6 pt-1 text-gray-400">Total: ${{ item.price}}</p>
+                                </div>
+
+                                <hr class="w-full h-1 mx-auto bg-gray-100 rounded dark:bg-gray-700">
+                                <div class="flex justify-between mt-6">
+                                    <div class="">
+                                        Quantity: {{ item.quantity }}
+                                    </div>
+                                    <div>Price: {{ item.product.price }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div>
+                    <p class="text-lg">Date: {{ order.created_at|date:'d-m-Y' }}</p>
+                    <p class="text-lg">Total orders: <strong>${{ order.total_price }}</strong></p>
+                </div>
+            </div>
+        {% endfor %}
+    </main>
+{% endblock %}

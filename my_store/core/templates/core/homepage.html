@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block header%}
+    <header class="pb-28">
+        <h1 class="mt-16 text-center text-3xl font-bold text-violet-100">Furniture That Fits Your Life, Delivered </br> to Your Door.</h1>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <main class="max-w-6xl mx-auto">
+        <div class="mt-16 mx-auto py-2 px-6 xl:px-0">
+            <h2 class="text-center font-semibold text-lime-700 text-xl">Product Features</h2>
+            
+            <div class="mt-8 grid grid-cols-4 gap-4">
+                {% for product in featured_products %}
+                    {% include "product/partials/list_product.html" %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mt-16 mx-auto py-2 px-6 xl:px-0">
+            <h2 class="text-center font-semibold text-lime-700 text-xl">Categories</h2>
+            <div class="mt-8 flex items-center space-x-4">
+                {% for category in categories %}
+                    {% include "product/partials/list_category.html" %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mt-16 mx-auto py-2 px-6 xl:px-0">
+            <h2 class="text-center font-semibold text-lime-700 text-xl">New Arrivals</h2>
+            <div class="mt-8 grid grid-cols-4 gap-4">
+                {% for product in new_arrival_products %}
+                    {% include "product/partials/list_product.html" %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mt-16 max-w-6xl mx-auto py-2 px-6">
+            <div class="flex space-x-6">
+                <div class="w-full lg:w-1/2">
+                    {% load static %}
+                    <img src="{% static 'background/furniture_2.jpg' %}" class="rounded-xl"/>
+                </div>
+
+                <div class="w-full lg:w-1/2">
+                    <h1 class="text-2xl font-semibold text-lime-700">Why Choose Us?</h1>
+                    <p class="mt-4">
+                        We believe that furniture sould be a reflection of your unique personality and lifestyle.
+                        That's why we curate an exquisite collection of hanhpicked pieces, each carefully selected
+                        for its craftsmanship, design, and durability.
+                    </p>
+                    <div class="mt-4 grid grid-cols-2 gap-x-2 gap-y-4">
+                        <span><i class="fa-solid fa-check text-lime-700"></i> Quick Shipping</span>
+                        <span><i class="fa-solid fa-check text-lime-700"></i> Affordability</span>
+                        <span><i class="fa-solid fa-check text-lime-700"></i> Quality Assurance</span>
+                        <span><i class="fa-solid fa-check text-lime-700"></i> Money-Back Guarantee</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

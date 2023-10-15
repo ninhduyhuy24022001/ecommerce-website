@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+
+{% block title %}About Me{% endblock %}
+
+{% block header%}
+    <header class="pb-28">
+        <h1 class="mt-16 text-center text-3xl font-bold text-violet-100">About Me</h1>
+    </header>
+{% endblock %}
+
+{% block content %}
+    <main class="max-w-6xl mx-auto mt-8 flex space-x-8">
+        {% load static %}
+        <img src="{% static 'background/me.jpg' %}" class="w-1/2 rounded-xl">
+
+        <div class="w-1/2">
+            <h1 class="text-2xl text-fuchsia-500">Story</h1>
+            <p>Lorem</p>
+        </div>
+    </main>
+{% endblock %}

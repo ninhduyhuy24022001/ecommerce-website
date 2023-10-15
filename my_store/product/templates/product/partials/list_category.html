@@ -1,0 +1,7 @@
+<div class="w-full md:w-1/2 lg:w-1/4 p-2 shadow-lg rounded-xl">
+    <a href="{% url 'core:shop' %}?category={{ category.slug }}" class="">
+        <img class="rounded-xl hover:shadow-xl" src="{{ category.get_thumbnail }}">
+    </a>
+
+    <a href="{% url 'core:shop' %}?category={{ category.slug }}" class="block text-center">{{ category.name }}"</a>
+</div>
